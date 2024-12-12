@@ -11,7 +11,7 @@ package User;
  */
 import java.sql.*;
 
-public class UserService {
+public class UserService implements IUserService{
     private static final String DB_URL = "jdbc:mysql://localhost:3306/book_donation";
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "yourpassword";
@@ -27,6 +27,7 @@ public class UserService {
     }
 
     // Registrasi pengguna baru
+    @Override
     public boolean registerUser(User user) {
         String query = "INSERT INTO users (nama, email, alamat, password, kontak, role) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -45,6 +46,7 @@ public class UserService {
     }
 
     // Login pengguna
+    @Override
    public User login(String email, String password) {
     String query = "SELECT * FROM users WHERE email = ? AND password = ?";
     try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {

@@ -1,26 +1,25 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package book_donation;
 
 import Book.Book;
+import Book.IBookService;
 import Book.BookService;
+import java.util.List;
 import java.util.Scanner;
 
 public class DonaturDashboard {
     public static void donaturMenu(int donaturId) {
         Scanner scanner = new Scanner(System.in);
-        BookService bookService = new BookService();
+        IBookService bookService = new BookService(); // Gunakan interface
 
         while (true) {
-            System.out.println("\n=== Halaman Utama Donatur ===");
-            System.out.println("1. Ajukan Buku Donasi");
-            System.out.println("2. Hapus Buku Donasi");
-            System.out.println("3. Logout");
-            System.out.print("Pilih opsi: ");
-            int pilihan = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+                 System.out.println("\n=== Halaman Utama Donatur ===");
+                System.out.println("1. Ajukan Buku Donasi");
+                 System.out.println("2. Hapus Buku Donasi");
+                System.out.println("3. Lihat Semua Buku Donasi");
+                System.out.println("4. Logout");
+                System.out.print("Pilih opsi: ");
+                int pilihan = scanner.nextInt();
+                scanner.nextLine();
 
             if (pilihan == 1) {
                 // Ajukan buku donasi
@@ -70,11 +69,31 @@ public class DonaturDashboard {
                     System.out.println("Gagal menghapus buku. Pastikan ID benar dan buku adalah milik Anda.");
                 }
             } else if (pilihan == 3) {
-                System.out.println("Logout berhasil. Kembali ke menu utama.");
-                break;
-            } else {
-                System.out.println("Opsi tidak valid.");
+                System.out.println("\n=== Daftar Buku Donasi ===");
+                List<Book> books = bookService.getAllBooksByDonatur(donaturId);
+            if (books.isEmpty()) {
+            System.out.println("Anda belum mendonasikan buku.");
+        } else {
+            for (Book book : books) {
+                
+                System.out.println("-----------------------------------");
+                System.out.println("ID Buku: " + book.getIdBuku());
+                System.out.println("Judul: " + book.getJudul());
+                System.out.println("Penerbit: " + book.getPenerbit());
+                System.out.println("Genre: " + book.getGenre());
+                System.out.println("Penulis: " + book.getPenulis());
+                System.out.println("Kategori: " + book.getKategori());
+                System.out.println("Kondisi: " + book.getKondisi());
+                System.out.println("Jumlah Buku: " + book.getJumlahBuku());
+                System.out.println("---------------------------");
             }
+            }
+            }   else if (pilihan == 4) {
+        System.out.println("Logout berhasil. Kembali ke menu utama.");
+        break;
+    } else {
+        System.out.println("Opsi tidak valid.");
+    }
         }
     }
-}
+}    
