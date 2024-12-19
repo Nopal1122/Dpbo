@@ -24,6 +24,12 @@ public class Volunteer extends User{
     
     @Override
     public String toString(){
-        
+         return "Data Volunteer{" +
+                "\nUser ID:\t\t" + getId() +
+                "\nNama Volunteer:\t" + getNama() +
+                "\nEmail:\t\t" + getEmail() +
+                "\nAlaamt:\t\t" + getAlamat() +
+                "\nNo. HP:\t\t" + getKontak() +
+                '}';
     }
 }
