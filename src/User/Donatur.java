@@ -18,6 +18,7 @@ public class Donatur extends User {
     }
     
     public void lihatStatusDonasi(){
+        Scanner sc = new Scanner(System.in);
         
     }
     
