@@ -14,12 +14,7 @@ public class DonaturDashboard {
         IBookService bookService = new BookService(); // Gunakan interface
 
         while (true) {
-            System.out.println("\n=== Halaman Utama Donatur ===");
-            System.out.println("1. Ajukan Buku Donasi");
-            System.out.println("2. Hapus Buku Donasi");
-            System.out.println("3. Lihat Semua Buku Donasi");
-            System.out.println("4. Logout");
-            System.out.print("Pilih opsi: ");
+            printMenuDonatur();
             int pilihan = scanner.nextInt();
             scanner.nextLine();
 
@@ -98,5 +93,14 @@ public class DonaturDashboard {
                 System.out.println("Opsi tidak valid.");
             }
         }
+    }
+
+    public static void printMenuDonatur() {
+        System.out.println("\n=== Halaman Utama Donatur ===");
+        System.out.println("1. Ajukan Buku Donasi");
+        System.out.println("2. Hapus Buku Donasi");
+        System.out.println("3. Lihat Semua Buku Donasi");
+        System.out.println("4. Logout");
+        System.out.print("Pilih opsi: ");
     }
 }
