@@ -11,5 +11,6 @@ public interface IBookService {
     
     
     List<Book> getAllBooksByDonatur(int donaturId);
+    public Book getBookById(int bookId);
 
 }

@@ -1,8 +1,11 @@
 package main;
 
+import Book.BookService;
+import User.Penerima;
 import User.User;
 import User.UserService;
 import book_donation.DonaturDashboard;
+import book_donation.PenerimaDashboard;
 import java.util.Scanner;
 
 public class Main {
@@ -83,7 +86,9 @@ public class Main {
                         // Mengarahkan ke Donatur Dashboard dengan ID donatur yang benar
                         DonaturDashboard.donaturMenu(user.getId());
                     } else if (user.getRole().equalsIgnoreCase("penerima")) {
-                        System.out.println("Fitur penerima belum tersedia.");
+                      Penerima penerima = new Penerima(user.getId(), user.getNama(), user.getEmail(), user.getAlamat(), user.getPassword(), user.getKontak());
+                      PenerimaDashboard.penerimaMenu(penerima);
+                
                     } else if (user.getRole().equalsIgnoreCase("volunteer")) {
                         System.out.println("Fitur volunteer belum tersedia.");
                     } else if (user.getRole().equalsIgnoreCase("admin")) {

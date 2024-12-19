@@ -4,7 +4,11 @@
  */
 package User;
 
+import java.util.List;
+
 public interface IUserService {
     boolean registerUser(User user);
     User login(String email, String password);
+ 
 }
+

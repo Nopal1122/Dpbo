@@ -17,32 +17,70 @@ public class Penerima extends User{
         super(id, nama, email, alamat, password, kontak, "Penerima");
     }
     
-    public void ajukanPermintaan(){
-        //Input judul buku yang ingin diminta
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Masukkan Judul Buku yang ingin diminta");
-        System.out.print("Judul Buku: ");
-        String judulBuku = sc.nextLine();
-        
-        //Pengecekan ketersediaan buku yang diminta
-        ArrayList<Book> books = new ArrayList<Book>();
-        for (int i = 0; i < books.size(); i++) {
-            if(judulBuku != books.get(i).getJudul()){
-                System.out.println("Buku tidak tersedia.");
-            } else {
-                // Jika buku tersedia dan masih bisa dipesan
-                System.out.println("Berhasil Memesan Buku!");
-                System.out.println("=========== INVOICE ===========");
-                System.out.println("User ID:\t" + super.getId());
-                System.out.println("Nama Pemesan:\t" + super.getNama());
-                System.out.println("Judul:\t" + books.get(i).getJudul());
-                System.out.println("Penulis:\t" + books.get(i).getPenulis());
-                System.out.println("Penerbit:\t" + books.get(i).getPenerbit());
-                System.out.println("===============================");
+    public void lihatSemuaBuku(BookService bookService) {
+        System.out.println("=== Daftar Buku yang Tersedia ===");
+        List<Book> books = bookService.getAllBooksByDonatur(0); // 0 untuk mengambil semua buku
+        System.out.println("=================================");
+        if (books.isEmpty()) {
+            System.out.println("Tidak ada buku yang tersedia saat ini.");
+        } else {
+            for (Book book : books) {
+                System.out.println("ID: " + book.getIdBuku() +
+                                   ", Judul: " + book.getJudul() +
+                                   ", Penulis: " + book.getPenulis() +
+                                   ", Penerbit: " + book.getPenerbit() +
+                                   ", Kondisi: " + book.getKondisi());
             }
         }
     }
     
+    public void cariBuku(BookService bookService) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Masukkan judul buku yang ingin dicari: ");
+        String judulBuku = sc.nextLine();
+
+        System.out.println("=== Hasil Pencarian ===");
+        List<Book> books = bookService.getAllBooksByDonatur(0); // Ambil semua buku
+        boolean found = false;
+        for (Book book : books) {
+            if (book.getJudul().equalsIgnoreCase(judulBuku)) {
+                System.out.println("ID: " + book.getIdBuku() +
+                                   ", Judul: " + book.getJudul() +
+                                   ", Penulis: " + book.getPenulis() +
+                                   ", Penerbit: " + book.getPenerbit() +
+                                   ", Kondisi: " + book.getKondisi());
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("Buku dengan judul \"" + judulBuku + "\" tidak ditemukan.");
+        }
+    }
+    
+    
+    
+    public void pesanBuku(BookService bookService) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Masukkan ID buku yang ingin dipesan: ");
+        int idBuku = sc.nextInt();
+        sc.nextLine(); // Consume newline
+
+        Book book = bookService.getBookById(idBuku);
+        if (book != null) {
+            System.out.println("=== Invoice ===");
+            System.out.println("User ID: " + getId());
+            System.out.println("Nama Pemesan: " + getNama());
+            System.out.println("Judul Buku: " + book.getJudul());
+            System.out.println("Penulis: " + book.getPenulis());
+            System.out.println("Penerbit: " + book.getPenerbit());
+            System.out.println("=================================");
+            System.out.println("Buku berhasil dipesan.");
+        } else {
+            System.out.println("Buku dengan ID " + idBuku + " tidak ditemukan.");
+        }
+    }
+    
+  
     public void ulasan(){
         
     }

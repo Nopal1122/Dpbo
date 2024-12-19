@@ -105,11 +105,13 @@ public class BookService implements IBookService {
 
     @Override
     public List<Book> getAllBooksByDonatur(int donaturId) {
-        String sql = "SELECT * FROM books WHERE donatur_id = ?";
+        String sql = donaturId == 0 ? "SELECT * FROM books" : "SELECT * FROM books WHERE donatur_id = ?";
         List<Book> books = new ArrayList<>();
 
         try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, donaturId);
+            if (donaturId != 0) {
+                stmt.setInt(1, donaturId);
+            }
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
@@ -121,7 +123,7 @@ public class BookService implements IBookService {
                     rs.getString("kategori"),
                     rs.getString("kondisi"),
                     rs.getInt("jumlah_buku"),
-                    donaturId
+                    rs.getInt("donatur_id")
                 );
                 book.setIdBuku(rs.getInt("id")); // Mengisi ID buku
                 books.add(book);
@@ -132,4 +134,33 @@ public class BookService implements IBookService {
 
         return books;
     }
+
+      
+    
+    //fitur penerima
+    public Book getBookById(int bookId) {
+    String sql = "SELECT * FROM books WHERE id = ?";
+    try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setInt(1, bookId);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            return new Book(
+                rs.getString("judul"),
+                rs.getString("penerbit"),
+                rs.getString("genre"),
+                rs.getString("penulis"),
+                rs.getString("kategori"),
+                rs.getString("kondisi"),
+                rs.getInt("jumlah_buku"),
+                rs.getInt("donatur_id")
+            );
+        }
+    } catch (Exception e) {
+        System.out.println("Gagal mengambil buku: " + e.getMessage());
+    }
+    return null;
+}
+
+    
+    
 }
