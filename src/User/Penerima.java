@@ -6,13 +6,13 @@ package User;
 import Book.*;
 import java.util.*;
 
-
 /**
  *
  * @author Irfan Rangga
  */
 public class Penerima extends User{
     private String ulasan;
+    private int nilai;
 
     public Penerima(int id, String nama, String email, String alamat, String password, String kontak) {
         super(id, nama, email, alamat, password, kontak, "Penerima");
@@ -58,8 +58,6 @@ public class Penerima extends User{
         }
     }
     
-    
-    
     public void pesanBuku(BookService bookService) {
         Scanner sc = new Scanner(System.in);
         System.out.print("Masukkan ID buku yang ingin dipesan: ");
@@ -84,6 +82,20 @@ public class Penerima extends User{
         this.ulasan = ulasan;
     }
       
+    public String getUlasan() {
+        return ulasan;
+    }
+
+    public int getNilai() {
+        return nilai;
+    }
+    
+   
+
+    public void setNilai(int nilai) {
+        this.nilai = nilai;
+    }
+  
     public void beriUlasan(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Bagaimana pendapatmu tentang buku ini?");
@@ -93,6 +105,10 @@ public class Penerima extends User{
             return;
         }
         setUlasan(review);
+        System.out.println("Berikan penilaianmu disini");
+        
+        int rating = sc.nextInt();
+        setNilai(rating);
         System.out.println("Terima Kasih sudah memberikan ulasan");
     }
 
