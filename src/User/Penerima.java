@@ -80,11 +80,10 @@ public class Penerima extends User{
             System.out.println("Buku dengan ID " + idBuku + " tidak ditemukan.");
         }
     }
-
-    public void setUlasan(String ulasan) {
+ public void setUlasan(String ulasan) {
         this.ulasan = ulasan;
     }
-  
+      
     public void beriUlasan(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Bagaimana pendapatmu tentang buku ini?");

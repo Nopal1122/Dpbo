@@ -103,6 +103,8 @@ public class BookService implements IBookService {
         return false;
     }
 
+    
+    //fitur penerima
     @Override
     public List<Book> getAllBooksByDonatur(int donaturId) {
         String sql = donaturId == 0 ? "SELECT * FROM books" : "SELECT * FROM books WHERE donatur_id = ?";

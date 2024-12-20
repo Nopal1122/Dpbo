@@ -17,8 +17,9 @@ public class PenerimaDashboard {
             System.out.println("\n=== Halaman Utama Penerima ===");
             System.out.println("1. Lihat Semua Buku");
             System.out.println("2. Cari Buku");
-            System.out.println("3. Pesan Buku");
-            System.out.println("4. Logout");
+            System.out.println("3. Ajukan permintaan");
+            System.out.println("4. Berikan ulasan");
+            System.out.println("5. Logout");
             System.out.print("Pilih opsi: ");
             int pilihan = scanner.nextInt();
             scanner.nextLine();
@@ -36,6 +37,7 @@ public class PenerimaDashboard {
                         System.out.println("Judul: " + book.getJudul());
                         System.out.println("Penulis: " + book.getPenulis());
                         System.out.println("Penerbit: " + book.getPenerbit());
+                        System.out.println("Genre: " + book.getGenre());
                         System.out.println("Kondisi: " + book.getKondisi());
                         System.out.println("-----------------------------------");
                     }
@@ -56,6 +58,7 @@ public class PenerimaDashboard {
                         System.out.println("Judul: " + book.getJudul());
                         System.out.println("Penulis: " + book.getPenulis());
                         System.out.println("Penerbit: " + book.getPenerbit());
+                        System.out.println("Genre: " + book.getGenre());
                         System.out.println("Kondisi: " + book.getKondisi());
                         System.out.println("-----------------------------------");
                         found = true;
@@ -67,10 +70,10 @@ public class PenerimaDashboard {
 
             } else if (pilihan == 3) {
                 // Pesan buku
-                System.out.println("\n=== Pesan Buku ===");
+                System.out.println("\n=== Ajukan Buku ===");
                 System.out.print("Masukkan ID buku yang ingin dipesan: ");
                 int idBuku = scanner.nextInt();
-                scanner.nextLine(); // Consume newline
+                scanner.nextLine(); 
 
                 Book book = bookService.getBookById(idBuku);
                 if (book != null) {
@@ -80,13 +83,22 @@ public class PenerimaDashboard {
                     System.out.println("Judul Buku: " + book.getJudul());
                     System.out.println("Penulis: " + book.getPenulis());
                     System.out.println("Penerbit: " + book.getPenerbit());
+                    System.out.println("Genre: " + book.getGenre());
                     System.out.println("-----------------------------------");
                     System.out.println("Buku berhasil dipesan!");
                 } else {
                     System.out.println("Buku dengan ID " + idBuku + " tidak ditemukan.");
                 }
+                }else if(pilihan == 4){
+                        //beri ulasan
+                        System.out.println("\n======Berikan ulasan ==========;");
+                        penerima.beriUlasan();
+                        
+                        
+                        
+                        }
 
-            } else if (pilihan == 4) {
+             else if (pilihan == 5) {
                 System.out.println("Logout berhasil. Kembali ke menu utama.");
                 break;
 
