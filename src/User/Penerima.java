@@ -20,7 +20,7 @@ public class Penerima extends User{
     
     public void lihatSemuaBuku(BookService bookService) {
         System.out.println("=== Daftar Buku yang Tersedia ===");
-        List<Book> books = bookService.getAllBooksByDonatur(0); // 0 untuk mengambil semua buku
+        List<Book> books = bookService.listBuku(0); // 0 untuk mengambil semua buku
         System.out.println("=================================");
         if (books.isEmpty()) {
             System.out.println("Tidak ada buku yang tersedia saat ini.");
@@ -41,19 +41,21 @@ public class Penerima extends User{
         String judulBuku = sc.nextLine();
 
         System.out.println("=== Hasil Pencarian ===");
-        List<Book> books = bookService.getAllBooksByDonatur(0); // Ambil semua buku
+        HashMap<String, Book> books = bookService.getAllBooksByDonatur(0); // Ambil semua buku
         boolean found = false;
-        for (Book book : books) {
-            if (book.getJudul().equalsIgnoreCase(judulBuku)) {
-                System.out.println("ID: " + book.getIdBuku() +
-                                   ", Judul: " + book.getJudul() +
-                                   ", Penulis: " + book.getPenulis() +
-                                   ", Penerbit: " + book.getPenerbit() +
-                                   ", Kondisi: " + book.getKondisi());
-                found = true;
-            }
-        }
-        if (!found) {
+        Book buku = books.get(judulBuku);
+        System.out.println("Buku dengan judul \"" + judulBuku + "\" ditemukan.");
+//        for (Book book : books) {
+//            if (book.getJudul().equalsIgnoreCase(judulBuku)) {
+//                System.out.println("ID: " + book.getIdBuku() +
+//                                   ", Judul: " + book.getJudul() +
+//                                   ", Penulis: " + book.getPenulis() +
+//                                   ", Penerbit: " + book.getPenerbit() +
+//                                   ", Kondisi: " + book.getKondisi());
+//                found = true;
+//            
+//        }
+        if (buku == null) {
             System.out.println("Buku dengan judul \"" + judulBuku + "\" tidak ditemukan.");
         }
     }

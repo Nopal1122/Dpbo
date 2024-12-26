@@ -5,7 +5,9 @@ import Book.IBookService;
 import Book.BookService;
 import java.util.List;
 import java.util.Scanner;
+import java.util.HashMap;
 import User.Penerima;
+import User.User;
 
 public class PenerimaDashboard {
 
@@ -26,7 +28,7 @@ public class PenerimaDashboard {
             if (pilihan == 1) {
                 // Lihat semua buku
                 System.out.println("\n=== Daftar Buku yang Tersedia ===");
-                List<Book> books = bookService.getAllBooksByDonatur(0); // 0 untuk semua donatur
+                List<Book> books = bookService.listBuku(0); // 0 untuk semua donatur
                 if (books.isEmpty()) {
                     System.out.println("Tidak ada buku yang tersedia saat ini.");
                 } else {
@@ -47,20 +49,11 @@ public class PenerimaDashboard {
                 System.out.print("Masukkan judul buku: ");
                 String judulBuku = scanner.nextLine();
 
-                List<Book> books = bookService.getAllBooksByDonatur(0);
+                HashMap<String, Book> bookData = bookService.getAllBooksByDonatur(0);
+                
                 boolean found = false;
-                for (Book book : books) {
-                    if (book.getJudul().equalsIgnoreCase(judulBuku)) {
-                        System.out.println("-----------------------------------");
-                        System.out.println("ID Buku: " + book.getIdBuku());
-                        System.out.println("Judul: " + book.getJudul());
-                        System.out.println("Penulis: " + book.getPenulis());
-                        System.out.println("Penerbit: " + book.getPenerbit());
-                        System.out.println("Kondisi: " + book.getKondisi());
-                        System.out.println("-----------------------------------");
-                        found = true;
-                    }
-                }
+                Book buku = bookData.get(judulBuku);
+//              
                 if (!found) {
                     System.out.println("Buku dengan judul \"" + judulBuku + "\" tidak ditemukan.");
                 }

@@ -73,7 +73,7 @@ public class DonaturDashboard {
                 }
             } else if (pilihan == 3) {
                 System.out.println("\n=== Daftar Buku Donasi ===");
-                List<Book> books = bookService.getAllBooksByDonatur(donaturId);
+                List<Book> books = bookService.listBuku(donaturId);
                 if (books.isEmpty()) {
                     System.out.println("Anda belum mendonasikan buku.");
                 } else {

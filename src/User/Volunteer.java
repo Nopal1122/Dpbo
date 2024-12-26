@@ -15,11 +15,15 @@ public class Volunteer extends User{
     }
     
     public void verifikasiDonasi(){
-        
+        //Volunteer bakal ngecek buku yang ada di list
+        //Volunteer pilih buku yang mau di verifikasi
+        //Jika kondisi buku Baru/Bekas, set kondisi approved -> true
+        //Kalo approved = true, tampilin pesan "Verifikasi berhasil"
+        //Kalo gagal, tampilin pesan "Verifikasi gagal"
     }
     
     public void laporkanDistribusi(){
-        
+        //Volunteer 
     }
     
     @Override
