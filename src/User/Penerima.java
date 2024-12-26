@@ -80,7 +80,10 @@ public class Penerima extends User{
             System.out.println("Buku dengan ID " + idBuku + " tidak ditemukan.");
         }
     }
-
+ public void setUlasan(String ulasan) {
+        this.ulasan = ulasan;
+    }
+      
     public String getUlasan() {
         return ulasan;
     }
@@ -89,9 +92,7 @@ public class Penerima extends User{
         return nilai;
     }
     
-    public void setUlasan(String ulasan) {
-        this.ulasan = ulasan;
-    }
+   
 
     public void setNilai(int nilai) {
         this.nilai = nilai;

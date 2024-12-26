@@ -10,6 +10,8 @@ public class Book {
     private String kondisi;
     private int jumlahBuku;
     private int donaturId;
+    private String ulasan;
+    private int rating;
 
     // Constructor
     public Book(String judul, String penerbit, String genre, String penulis, String kategori, String kondisi, int jumlahBuku, int donaturId) {
@@ -59,6 +61,7 @@ public class Book {
     public int getJumlahBuku() {
         return jumlahBuku;
     }
+    
 
     public int getDonaturId() {
         return donaturId;
