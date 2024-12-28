@@ -91,10 +91,7 @@ public class Main {
                 
                     } else if (user.getRole().equalsIgnoreCase("volunteer")) {
                         System.out.println("Fitur volunteer belum tersedia.");
-                    } else if (user.getRole().equalsIgnoreCase("admin")) {
-                        System.out.println("Fitur admin belum tersedia.");
-                    }
-                } else {
+                    } else {
                     System.out.println("\nLogin gagal. Email atau password salah.");
                 }
             } else if (pilihan == 3) {
@@ -107,5 +104,6 @@ public class Main {
 
         scanner.close();
     }
+}
 }
 

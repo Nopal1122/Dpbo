@@ -163,6 +163,54 @@ public class BookService implements IBookService {
     return null;
 }
 
+    public boolean addReview(int bookId, int penerimaId, String review, int rating) {
+    String sql = "INSERT INTO reviews (book_id, penerima_id, review, rating) VALUES (?, ?, ?, ?)";
+    try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setInt(1, bookId);
+        stmt.setInt(2, penerimaId);
+        stmt.setString(3, review);
+        stmt.setInt(4, rating);
+        stmt.executeUpdate();
+        System.out.println("Ulasan berhasil ditambahkan.");
+        return true;
+    } catch (Exception e) {
+        System.out.println("Gagal menambahkan ulasan: " + e.getMessage());
+        return false;
+    }
+}
+
+    
+    
+    public List<String> getReviewsByDonatur(int donaturId) {
+    String sql = """
+        SELECT r.review, r.rating, b.judul, u.nama
+        FROM reviews r
+        JOIN books b ON r.book_id = b.id
+        JOIN users u ON r.penerima_id = u.id
+        WHERE b.donatur_id = ?
+    """;
+    List<String> reviews = new ArrayList<>();
+    try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setInt(1, donaturId);
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            String review = String.format(
+                "Judul Buku: %s\nPenerima: %s\nRating: %d\nUlasan: %s",
+                rs.getString("judul"),
+                rs.getString("nama"),
+                rs.getInt("rating"),
+                rs.getString("review")
+            );
+            reviews.add(review);
+        }
+    } catch (Exception e) {
+        System.out.println("Gagal mengambil ulasan: " + e.getMessage());
+    }
+    return reviews;
+}
+
+    
+    
     
     
 }

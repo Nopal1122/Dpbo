@@ -35,6 +35,24 @@ public class Penerima extends User{
         }
     }
     
+    public void beriUlasan(int bookId) {
+    Scanner sc = new Scanner(System.in);
+    System.out.println("Berikan ulasan untuk buku ini:");
+    System.out.print("Ulasan: ");
+    String review = sc.nextLine();
+    System.out.print("Rating (1-5): ");
+    int rating = sc.nextInt();
+    
+    IBookService bookService = new BookService();
+    boolean success = bookService.addReview(bookId, super.getId(), review, rating);
+    if (success) {
+        System.out.println("Terima kasih atas ulasan Anda!");
+    } else {
+        System.out.println("Gagal menyimpan ulasan. Silakan coba lagi.");
+    }
+}
+
+    
     public void cariBuku(BookService bookService) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Masukkan judul buku yang ingin dicari: ");
