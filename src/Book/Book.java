@@ -10,11 +10,12 @@ public class Book {
     private String kondisi;
     private int jumlahBuku;
     private int donaturId;
+    private boolean isVerified;
     private String ulasan;
     private int rating;
 
     // Constructor
-    public Book(String judul, String penerbit, String genre, String penulis, String kategori, String kondisi, int jumlahBuku, int donaturId) {
+    public Book(String judul, String penerbit, String genre, String penulis, String kategori, String kondisi, int jumlahBuku, int donaturId,boolean isVerified) {
         this.judul = judul;
         this.penerbit = penerbit;
         this.genre = genre;
@@ -23,6 +24,7 @@ public class Book {
         this.kondisi = kondisi;
         this.jumlahBuku = jumlahBuku;
         this.donaturId = donaturId;
+        this.isVerified = isVerified;
     }
 
     // Getter dan Setter
@@ -66,4 +68,12 @@ public class Book {
     public int getDonaturId() {
         return donaturId;
     }
+    
+    public boolean isVerified() {
+    return isVerified;
+}
+
+public void setVerified(boolean verified) {
+    isVerified = verified;
+}
 }

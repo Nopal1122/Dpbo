@@ -13,7 +13,7 @@ import Book.*;
  */
 public class Donatur extends User {
 
-    public Donatur(int id, String nama, String email, String alamat, String password, String kontak, String role) {
+    public Donatur(int id, String nama, String email, String alamat, String password, String kontak) {
         super(id, nama, email, alamat, password, kontak, "Donatur");
     }
     
@@ -49,7 +49,7 @@ public class Donatur extends User {
                 int jumlahBuku = scanner.nextInt();
                 scanner.nextLine(); // Consume newline
 
-                Book book = new Book(judul, penerbit, genre, penulis, kategori, kondisi, jumlahBuku, super.getId());
+                Book book = new Book(judul, penerbit, genre, penulis, kategori, kondisi, jumlahBuku, super.getId(),false);
                 boolean success = bookService.addBook(book);
 
                 if (success) {

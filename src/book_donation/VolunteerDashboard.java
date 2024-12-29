@@ -1,4 +1,3 @@
-<<<<<<< HEAD:src/book_donation/VolunteerDashboard.java
 package book_donation;
 
 import Book.BookService;
@@ -52,33 +51,6 @@ public class VolunteerDashboard {
             } else {
                 System.out.println("Opsi tidak valid.");
             }
-=======
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package User_Dashboard;
-import java.util.Scanner;
-
-/**
- *
- * @author Irfan Rangga
- */
-public class VolunteerDashboard {
-    public static void volunteerMenu(){
-        Scanner sc = new Scanner(System.in);
-        int opsi = 0;
-        
-        while(opsi != 4){
-            System.out.println("\n=== Halaman Utama Volunteer ===");
-            System.out.println("1. Validasi Buku dari Donatur");
-            System.out.println("2. Distribusi Buku");
-            System.out.println("3. Buat Laporan");
-            System.out.println("4. Logout");
-            System.out.print("Pilih opsi: ");
-            opsi = sc.nextInt();
-
->>>>>>> 395b64894f5089ed05c5c18a51b60f0f5d3d2e47:src/User_Dashboard/VolunteerDashboard.java
         }
     }
 }

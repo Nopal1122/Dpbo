@@ -1,4 +1,5 @@
-package User_Dashboard;
+
+package book_donation;
 
 import Book.Book;
 import Book.IBookService;
@@ -48,7 +49,7 @@ public class DonaturDashboard {
                 int jumlahBuku = scanner.nextInt();
                 scanner.nextLine(); // Consume newline
 
-                Book book = new Book(judul, penerbit, genre, penulis, kategori, kondisi, jumlahBuku, donaturId);
+                Book book = new Book(judul, penerbit, genre, penulis, kategori, kondisi, jumlahBuku, donaturId,false);
                 boolean success = bookService.addBook(book);
 
                 if (success) {
