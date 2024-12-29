@@ -13,7 +13,7 @@ import Book.*;
  */
 public class Donatur extends User {
 
-    public Donatur(int id, String nama, String email, String alamat, String password, String kontak) {
+    public Donatur(int id, String nama, String email, String alamat, String password, String kontak, String role) {
         super(id, nama, email, alamat, password, kontak, "Donatur");
     }
     
