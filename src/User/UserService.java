@@ -55,15 +55,42 @@ public class UserService implements IUserService{
         ResultSet resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
             //buat kondisi per role
-            return new User(
-                resultSet.getInt("id"), 
-                resultSet.getString("nama"),
-                resultSet.getString("email"),
-                resultSet.getString("alamat"),
-                resultSet.getString("password"),
-                resultSet.getString("kontak"),
-                resultSet.getString("role")
-            ) {};
+            String role = resultSet.getString("role");
+            switch(role.toLowerCase()){
+                case "donatur":
+                    return new Donatur(
+                            resultSet.getInt("id"),
+                            resultSet.getString("nama"),
+                            resultSet.getString("email"),
+                            resultSet.getString("alamat"),
+                            resultSet.getString("password"),
+                            resultSet.getString("kontak"),
+                            role
+                    );
+                case "penerima":
+                    return new Penerima(
+                            resultSet.getInt("id"),
+                            resultSet.getString("nama"),
+                            resultSet.getString("email"),
+                            resultSet.getString("alamat"),
+                            resultSet.getString("password"),
+                            resultSet.getString("kontak"),
+                            role
+                    );
+                case "volunteer":
+                    return new Volunteer(
+                            resultSet.getInt("id"),
+                            resultSet.getString("nama"),
+                            resultSet.getString("email"),
+                            resultSet.getString("alamat"),
+                            resultSet.getString("password"),
+                            resultSet.getString("kontak"),
+                            role
+                    );
+                default:
+                    System.out.println("Role tidak ditemukan");
+                    return null;
+            }
         }
     } catch (SQLException e) {
         System.out.println("Gagal login: " + e.getMessage());

@@ -1,4 +1,3 @@
-
 package book_donation;
 
 import Book.Book;
@@ -52,7 +51,7 @@ public class PenerimaDashboard {
                 System.out.print("Masukkan judul buku: ");
                 String judulBuku = scanner.nextLine();
 
-                HashMap<String, Book> bookData = bookService.getAllBooksByDonatur(0);                
+                HashMap<String, Book> bookData = bookService.getAllBooksByDonatur(0);
                 Book buku = bookData.get(judulBuku);
 //              
                 if (buku == null) {
@@ -66,7 +65,7 @@ public class PenerimaDashboard {
                 System.out.println("\n=== Ajukan Buku ===");
                 System.out.print("Masukkan ID buku yang ingin dipesan: ");
                 int idBuku = scanner.nextInt();
-                scanner.nextLine(); 
+                scanner.nextLine();
 
                 Book book = bookService.getBookById(idBuku);
                 if (book != null) {
@@ -82,16 +81,12 @@ public class PenerimaDashboard {
                 } else {
                     System.out.println("Buku dengan ID " + idBuku + " tidak ditemukan.");
                 }
-                }else if(pilihan == 4){
-                        //beri ulasan
-                        System.out.println("\n======Berikan ulasan ==========;");
-                        penerima.beriUlasan();
-                        
-                        
-                        
-                        }
+            } else if (pilihan == 4) {
+                //beri ulasan
+                System.out.println("\n======Berikan ulasan ==========;");
+                penerima.beriUlasan();
 
-             else if (pilihan == 5) {
+            } else if (pilihan == 5) {
                 System.out.println("Logout berhasil. Kembali ke menu utama.");
                 break;
 

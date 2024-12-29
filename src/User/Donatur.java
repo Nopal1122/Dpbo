@@ -13,8 +13,8 @@ import Book.*;
  */
 public class Donatur extends User {
 
-    public Donatur(int id, String nama, String email, String alamat, String password, String kontak) {
-        super(id, nama, email, alamat, password, kontak, "Donatur");
+    public Donatur(int id, String nama, String email, String alamat, String password, String kontak, String role) {
+        super(id, nama, email, alamat, password, kontak, role);
     }
     
     public void lihatStatusDonasi(){

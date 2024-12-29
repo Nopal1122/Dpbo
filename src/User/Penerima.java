@@ -14,8 +14,8 @@ public class Penerima extends User{
     private String ulasan;
     private int nilai;
 
-    public Penerima(int id, String nama, String email, String alamat, String password, String kontak) {
-        super(id, nama, email, alamat, password, kontak, "Penerima");
+    public Penerima(int id, String nama, String email, String alamat, String password, String kontak, String role) {
+        super(id, nama, email, alamat, password, kontak, role);
     }
     
     public void lihatSemuaBuku(BookService bookService) {
@@ -45,16 +45,6 @@ public class Penerima extends User{
         boolean found = false;
         Book buku = books.get(judulBuku);
         System.out.println("Buku dengan judul \"" + judulBuku + "\" ditemukan.");
-//        for (Book book : books) {
-//            if (book.getJudul().equalsIgnoreCase(judulBuku)) {
-//                System.out.println("ID: " + book.getIdBuku() +
-//                                   ", Judul: " + book.getJudul() +
-//                                   ", Penulis: " + book.getPenulis() +
-//                                   ", Penerbit: " + book.getPenerbit() +
-//                                   ", Kondisi: " + book.getKondisi());
-//                found = true;
-//            
-//        }
         if (buku == null) {
             System.out.println("Buku dengan judul \"" + judulBuku + "\" tidak ditemukan.");
         }

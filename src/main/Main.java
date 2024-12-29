@@ -61,7 +61,8 @@ public class Main {
                 System.out.print("Role (penerima/donatur/volunteer): ");
                 String role = scanner.nextLine();
 
-                User user = new User(nama, email, alamat, password, kontak, role) {};
+                User user = new User(nama, email, alamat, password, kontak, role) {
+                };
                 boolean success = userService.registerUser(user);
 
                 if (success) {
@@ -85,23 +86,14 @@ public class Main {
                     System.out.println("Halo, " + user.getNama() + " (" + user.getRole() + ").");
 
                     // Arahkan ke dashboard sesuai role
-                    if (user instanceof Donatur) {
+                    if (user instanceof Donatur donatur) {
                         // Mengarahkan ke Donatur Dashboard dengan ID donatur yang benar
-                        DonaturDashboard.donaturMenu(user.getId());
-                    } else if (user.getRole().equalsIgnoreCase("penerima")) {
-                        Penerima penerima = new Penerima(user.getId(), user.getNama(), user.getEmail(), user.getAlamat(), user.getPassword(), user.getKontak());
+                        DonaturDashboard.donaturMenu(donatur.getId());
+                    } else if (user instanceof Penerima penerima) {
+                        // Mengarahkan ke Penerima Dashboard
                         PenerimaDashboard.penerimaMenu(penerima);
-
-                    } else if (user.getRole().equalsIgnoreCase("volunteer")) {
-                        
-                            Volunteer volunteer = new Volunteer(
-                        user.getId(),
-                        user.getNama(),
-                        user.getEmail(),
-                        user.getAlamat(),
-                        user.getPassword(),
-                        user.getKontak()
-                        );
+                    } else if (user instanceof Volunteer) {
+                        // Mengarahkan ke Volunteer Dashboard
                         VolunteerDashboard.volunteerMenu();
                     }
                 } else {
