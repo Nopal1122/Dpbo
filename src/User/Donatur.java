@@ -6,7 +6,6 @@ package User;
 
 import java.util.Scanner;
 import Book.*;
-import java.util.List;
 
 /**
  *
@@ -59,22 +58,7 @@ public class Donatur extends User {
                     System.out.println("Gagal mengajukan buku.");
                 }
     }
-    public void lihatUlasan() {
-    IBookService bookService = new BookService();
-    List<String> reviews = bookService.getReviewsByDonatur(super.getId());
-    if (reviews.isEmpty()) {
-        System.out.println("Belum ada ulasan untuk buku donasi Anda.");
-    } else {
-        System.out.println("\n=== Ulasan untuk Buku Donasi Anda ===");
-        for (String review : reviews) {
-            System.out.println(review);
-            System.out.println("-----------------------------");
-        }
-    }
-}
 
-    
-    
     @Override
     public String toString() {
         return "Data Donatur {" +

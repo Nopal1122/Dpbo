@@ -6,8 +6,10 @@ import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
 
 public class BookService implements IBookService {
+
     private Connection connect() {
         try {
             return DriverManager.getConnection("jdbc:mysql://localhost:3306/book_donation", "root", "password");
@@ -106,9 +108,9 @@ public class BookService implements IBookService {
     
     //fitur penerima
     @Override
-    public List<Book> getAllBooksByDonatur(int donaturId) {
+    public HashMap<String, Book> getAllBooksByDonatur(int donaturId) {
         String sql = donaturId == 0 ? "SELECT * FROM books" : "SELECT * FROM books WHERE donatur_id = ?";
-        List<Book> books = new ArrayList<>();
+        HashMap<String, Book> books = new HashMap<String, Book>();
 
         try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             if (donaturId != 0) {
@@ -118,14 +120,46 @@ public class BookService implements IBookService {
 
             while (rs.next()) {
                 Book book = new Book(
-                    rs.getString("judul"),
-                    rs.getString("penerbit"),
-                    rs.getString("genre"),
-                    rs.getString("penulis"),
-                    rs.getString("kategori"),
-                    rs.getString("kondisi"),
-                    rs.getInt("jumlah_buku"),
-                    rs.getInt("donatur_id")
+                        rs.getString("judul"),
+                        rs.getString("penerbit"),
+                        rs.getString("genre"),
+                        rs.getString("penulis"),
+                        rs.getString("kategori"),
+                        rs.getString("kondisi"),
+                        rs.getInt("jumlah_buku"),
+                        rs.getInt("donatur_id")
+                );
+                book.setIdBuku(rs.getInt("id")); // Mengisi ID buku
+                books.put(book.getJudul(), book);
+            }
+        } catch (Exception e) {
+            System.out.println("Gagal mengambil daftar buku: " + e.getMessage());
+        }
+
+        return books;
+    }
+
+    @Override
+    public List<Book> listBuku(int donaturId) {
+        String sql = donaturId == 0 ? "SELECT * FROM books" : "SELECT * FROM books WHERE donatur_id = ?";
+        List<Book> books = new ArrayList<Book>();
+
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            if (donaturId != 0) {
+                stmt.setInt(1, donaturId);
+            }
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Book book = new Book(
+                        rs.getString("judul"),
+                        rs.getString("penerbit"),
+                        rs.getString("genre"),
+                        rs.getString("penulis"),
+                        rs.getString("kategori"),
+                        rs.getString("kondisi"),
+                        rs.getInt("jumlah_buku"),
+                        rs.getInt("donatur_id")
                 );
                 book.setIdBuku(rs.getInt("id")); // Mengisi ID buku
                 books.add(book);
@@ -137,80 +171,68 @@ public class BookService implements IBookService {
         return books;
     }
 
-      
-    
     //fitur penerima
     public Book getBookById(int bookId) {
-    String sql = "SELECT * FROM books WHERE id = ?";
-    try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-        stmt.setInt(1, bookId);
-        ResultSet rs = stmt.executeQuery();
-        if (rs.next()) {
-            return new Book(
-                rs.getString("judul"),
-                rs.getString("penerbit"),
-                rs.getString("genre"),
-                rs.getString("penulis"),
-                rs.getString("kategori"),
-                rs.getString("kondisi"),
-                rs.getInt("jumlah_buku"),
-                rs.getInt("donatur_id")
-            );
+        String sql = "SELECT * FROM books WHERE id = ?";
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, bookId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new Book(
+                        rs.getString("judul"),
+                        rs.getString("penerbit"),
+                        rs.getString("genre"),
+                        rs.getString("penulis"),
+                        rs.getString("kategori"),
+                        rs.getString("kondisi"),
+                        rs.getInt("jumlah_buku"),
+                        rs.getInt("donatur_id")
+                );
+            }
+        } catch (Exception e) {
+            System.out.println("Gagal mengambil buku: " + e.getMessage());
         }
-    } catch (Exception e) {
-        System.out.println("Gagal mengambil buku: " + e.getMessage());
+        return null;
     }
-    return null;
-}
 
-    public boolean addReview(int bookId, int penerimaId, String review, int rating) {
-    String sql = "INSERT INTO reviews (book_id, penerima_id, review, rating) VALUES (?, ?, ?, ?)";
+    
+    @Override
+public boolean verifyBook(int bookId) {
+    String sql = "UPDATE books SET is_verified = TRUE WHERE id = ?";
     try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(sql)) {
         stmt.setInt(1, bookId);
-        stmt.setInt(2, penerimaId);
-        stmt.setString(3, review);
-        stmt.setInt(4, rating);
-        stmt.executeUpdate();
-        System.out.println("Ulasan berhasil ditambahkan.");
-        return true;
+        int rowsUpdated = stmt.executeUpdate();
+        return rowsUpdated > 0;
     } catch (Exception e) {
-        System.out.println("Gagal menambahkan ulasan: " + e.getMessage());
+        System.out.println("Gagal memverifikasi buku: " + e.getMessage());
         return false;
     }
 }
 
-    
-    
-    public List<String> getReviewsByDonatur(int donaturId) {
-    String sql = """
-        SELECT r.review, r.rating, b.judul, u.nama
-        FROM reviews r
-        JOIN books b ON r.book_id = b.id
-        JOIN users u ON r.penerima_id = u.id
-        WHERE b.donatur_id = ?
-    """;
-    List<String> reviews = new ArrayList<>();
+@Override
+public List<Book> getUnverifiedBooks() {
+    String sql = "SELECT * FROM books WHERE is_verified = FALSE";
+    List<Book> books = new ArrayList<>();
     try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-        stmt.setInt(1, donaturId);
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
-            String review = String.format(
-                "Judul Buku: %s\nPenerima: %s\nRating: %d\nUlasan: %s",
-                rs.getString("judul"),
-                rs.getString("nama"),
-                rs.getInt("rating"),
-                rs.getString("review")
+            Book book = new Book(
+                    rs.getString("judul"),
+                    rs.getString("penerbit"),
+                    rs.getString("genre"),
+                    rs.getString("penulis"),
+                    rs.getString("kategori"),
+                    rs.getString("kondisi"),
+                    rs.getInt("jumlah_buku"),
+                    rs.getInt("donatur_id")
             );
-            reviews.add(review);
+            book.setIdBuku(rs.getInt("id"));
+            books.add(book);
         }
     } catch (Exception e) {
-        System.out.println("Gagal mengambil ulasan: " + e.getMessage());
+        System.out.println("Gagal mengambil daftar buku yang belum diverifikasi: " + e.getMessage());
     }
-    return reviews;
+    return books;
 }
 
-    
-    
-    
-    
 }

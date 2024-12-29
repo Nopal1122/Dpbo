@@ -54,6 +54,7 @@ public class UserService implements IUserService{
         preparedStatement.setString(2, password);
         ResultSet resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
+            //buat kondisi per role
             return new User(
                 resultSet.getInt("id"), 
                 resultSet.getString("nama"),
@@ -62,7 +63,7 @@ public class UserService implements IUserService{
                 resultSet.getString("password"),
                 resultSet.getString("kontak"),
                 resultSet.getString("role")
-            );
+            ) {};
         }
     } catch (SQLException e) {
         System.out.println("Gagal login: " + e.getMessage());

@@ -4,12 +4,16 @@ import Book.BookService;
 import User.Penerima;
 import User.User;
 import User.UserService;
+import User.Donatur;
+import User.Volunteer;
 import book_donation.DonaturDashboard;
 import book_donation.PenerimaDashboard;
+import book_donation.VolunteerDashboard;
 import java.util.Scanner;
 
 public class Main {
-     public static void clearConsole() {
+
+    public static void clearConsole() {
         try {
             if (System.getProperty("os.name").contains("Windows")) {
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
@@ -21,14 +25,13 @@ public class Main {
             System.out.println("Tidak dapat membersihkan layar: " + e.getMessage());
         }
     }
-    
-    
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         UserService userService = new UserService();
 
         while (true) {
-            
+
             System.out.println("=== Program Donasi Buku Bekas ===");
             System.out.println("1. Registrasi");
             System.out.println("2. Login");
@@ -55,10 +58,10 @@ public class Main {
                 System.out.print("Kontak: ");
                 String kontak = scanner.nextLine();
 
-                System.out.print("Role (penerima/donatur/volunteer/admin): ");
+                System.out.print("Role (penerima/donatur/volunteer): ");
                 String role = scanner.nextLine();
 
-                User user = new User(nama, email, alamat, password, kontak, role);
+                User user = new User(nama, email, alamat, password, kontak, role) {};
                 boolean success = userService.registerUser(user);
 
                 if (success) {
@@ -77,21 +80,31 @@ public class Main {
 
                 User user = userService.login(email, password);
                 if (user != null) {
-                     clearConsole();
+                    clearConsole();
                     System.out.println("\nLogin berhasil!");
                     System.out.println("Halo, " + user.getNama() + " (" + user.getRole() + ").");
 
                     // Arahkan ke dashboard sesuai role
-                    if (user.getRole().equalsIgnoreCase("donatur")) {
+                    if (user instanceof Donatur) {
                         // Mengarahkan ke Donatur Dashboard dengan ID donatur yang benar
                         DonaturDashboard.donaturMenu(user.getId());
                     } else if (user.getRole().equalsIgnoreCase("penerima")) {
-                      Penerima penerima = new Penerima(user.getId(), user.getNama(), user.getEmail(), user.getAlamat(), user.getPassword(), user.getKontak());
-                      PenerimaDashboard.penerimaMenu(penerima);
-                
+                        Penerima penerima = new Penerima(user.getId(), user.getNama(), user.getEmail(), user.getAlamat(), user.getPassword(), user.getKontak());
+                        PenerimaDashboard.penerimaMenu(penerima);
+
                     } else if (user.getRole().equalsIgnoreCase("volunteer")) {
-                        System.out.println("Fitur volunteer belum tersedia.");
-                    } else {
+                        
+                            Volunteer volunteer = new Volunteer(
+                        user.getId(),
+                        user.getNama(),
+                        user.getEmail(),
+                        user.getAlamat(),
+                        user.getPassword(),
+                        user.getKontak()
+                        );
+                        VolunteerDashboard.volunteerMenu();
+                    }
+                } else {
                     System.out.println("\nLogin gagal. Email atau password salah.");
                 }
             } else if (pilihan == 3) {
@@ -105,5 +118,3 @@ public class Main {
         scanner.close();
     }
 }
-}
-
