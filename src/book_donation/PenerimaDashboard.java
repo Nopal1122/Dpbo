@@ -51,7 +51,7 @@ public class PenerimaDashboard {
                 System.out.print("Masukkan judul buku: ");
                 String judulBuku = scanner.nextLine();
 
-                HashMap<String, Book> bookData = bookService.getAllBooksByDonatur(0);                
+                HashMap<String, Book> bookData = bookService.getAllBooksByDonatur(0);
                 Book buku = bookData.get(judulBuku);
 //              
                 if (buku == null) {
@@ -61,36 +61,44 @@ public class PenerimaDashboard {
                 }
 
             } else if (pilihan == 3) {
-                // Pesan buku
-                System.out.println("\n=== Ajukan Buku ===");
-                System.out.print("Masukkan ID buku yang ingin dipesan: ");
-                int idBuku = scanner.nextInt();
-                scanner.nextLine(); 
+                 System.out.println("\n=== Ajukan Buku ===");
+                 System.out.print("Masukkan ID buku yang ingin dipesan: ");
+                 int idBuku = scanner.nextInt();
+                scanner.nextLine(); // Consume newline
 
-                Book book = bookService.getBookById(idBuku);
+                // Ambil data buku berdasarkan ID
+                 Book book = bookService.getBookById(idBuku);
                 if (book != null) {
-                    System.out.println("\n=== Invoice ===");
-                    System.out.println("ID Penerima: " + penerima.getId());
-                    System.out.println("Nama: " + penerima.getNama());
-                    System.out.println("Judul Buku: " + book.getJudul());
-                    System.out.println("Penulis: " + book.getPenulis());
-                    System.out.println("Penerbit: " + book.getPenerbit());
-                    System.out.println("Genre: " + book.getGenre());
-                    System.out.println("-----------------------------------");
-                    System.out.println("Buku berhasil dipesan!");
-                } else {
-                    System.out.println("Buku dengan ID " + idBuku + " tidak ditemukan.");
-                }
-                }else if(pilihan == 4){
-                        //beri ulasan
-                        System.out.println("\n======Berikan ulasan ==========;");
-                        penerima.beriUlasan();
-                        
-                        
-                        
-                        }
+                System.out.println("\n=== Invoice ===");
+                 System.out.println("ID Penerima: " + penerima.getId());
+                System.out.println("Nama: " + penerima.getNama());
+                System.out.println("Judul Buku: " + book.getJudul());
+                System.out.println("Penulis: " + book.getPenulis());
+                System.out.println("Penerbit: " + book.getPenerbit());
+                System.out.println("Genre: " + book.getGenre());
+                System.out.println("-----------------------------------");
+                System.out.println("Buku berhasil dipesan!");
 
-             else if (pilihan == 5) {
+                // Hapus buku dari database setelah berhasil dipesan
+                boolean success = bookService.deleteBook(idBuku, book.getDonaturId());
+                 if (success) {
+                 System.out.println("Buku telah dihapus dari daftar.");
+                } else {
+                     System.out.println("Gagal menghapus buku dari daftar.");
+                    }
+                     } else {
+                    System.out.println("Buku dengan ID " + idBuku + " tidak ditemukan.");
+                         }
+
+
+
+
+            } else if (pilihan == 4) {
+                //beri ulasan
+                System.out.println("\n======Berikan ulasan ==========;");
+                penerima.beriUlasan();
+
+            } else if (pilihan == 5) {
                 System.out.println("Logout berhasil. Kembali ke menu utama.");
                 break;
 

@@ -10,8 +10,8 @@ package User;
  */
 public class Volunteer extends User{
 
-    public Volunteer(int id, String nama, String email, String alamat, String password, String kontak) {
-        super(id, nama, email, alamat, password, kontak, "Volunteer");
+    public Volunteer(int id, String nama, String email, String alamat, String password, String kontak, String role) {
+        super(id, nama, email, alamat, password, kontak, role);
     }
     @Override
     public String toString(){
