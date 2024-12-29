@@ -127,7 +127,8 @@ public class BookService implements IBookService {
                         rs.getString("kategori"),
                         rs.getString("kondisi"),
                         rs.getInt("jumlah_buku"),
-                        rs.getInt("donatur_id")
+                        rs.getInt("donatur_id"),
+                        rs.getBoolean("is_verified")
                 );
                 book.setIdBuku(rs.getInt("id")); // Mengisi ID buku
                 books.put(book.getJudul(), book);
@@ -139,38 +140,42 @@ public class BookService implements IBookService {
         return books;
     }
 
-    @Override
-    public List<Book> listBuku(int donaturId) {
-        String sql = donaturId == 0 ? "SELECT * FROM books" : "SELECT * FROM books WHERE donatur_id = ?";
-        List<Book> books = new ArrayList<Book>();
+  @Override
+public List<Book> listBuku(int donaturId) {
+    String sql = donaturId == 0 
+                 ? "SELECT * FROM books WHERE is_verified = TRUE" 
+                 : "SELECT * FROM books WHERE donatur_id = ? AND is_verified = TRUE";
+    List<Book> books = new ArrayList<>();
 
-        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-            if (donaturId != 0) {
-                stmt.setInt(1, donaturId);
-            }
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                Book book = new Book(
-                        rs.getString("judul"),
-                        rs.getString("penerbit"),
-                        rs.getString("genre"),
-                        rs.getString("penulis"),
-                        rs.getString("kategori"),
-                        rs.getString("kondisi"),
-                        rs.getInt("jumlah_buku"),
-                        rs.getInt("donatur_id")
-                );
-                book.setIdBuku(rs.getInt("id")); // Mengisi ID buku
-                books.add(book);
-            }
-        } catch (Exception e) {
-            System.out.println("Gagal mengambil daftar buku: " + e.getMessage());
+    try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        if (donaturId != 0) {
+            stmt.setInt(1, donaturId);
         }
+        ResultSet rs = stmt.executeQuery();
 
-        return books;
+        while (rs.next()) {
+            Book book = new Book(
+                    rs.getString("judul"),
+                    rs.getString("penerbit"),
+                    rs.getString("genre"),
+                    rs.getString("penulis"),
+                    rs.getString("kategori"),
+                    rs.getString("kondisi"),
+                    rs.getInt("jumlah_buku"),
+                    rs.getInt("donatur_id"),
+                    rs.getBoolean("is_verified")
+            );
+            book.setIdBuku(rs.getInt("id")); // Mengisi ID buku
+            books.add(book);
+        }
+    } catch (Exception e) {
+        System.out.println("Gagal mengambil daftar buku: " + e.getMessage());
     }
 
+    return books;
+}
+
+@Override
     //fitur penerima
     public Book getBookById(int bookId) {
         String sql = "SELECT * FROM books WHERE id = ?";
@@ -186,7 +191,8 @@ public class BookService implements IBookService {
                         rs.getString("kategori"),
                         rs.getString("kondisi"),
                         rs.getInt("jumlah_buku"),
-                        rs.getInt("donatur_id")
+                        rs.getInt("donatur_id"),
+                        rs.getBoolean("is_verified")
                 );
             }
         } catch (Exception e) {
@@ -224,7 +230,8 @@ public List<Book> getUnverifiedBooks() {
                     rs.getString("kategori"),
                     rs.getString("kondisi"),
                     rs.getInt("jumlah_buku"),
-                    rs.getInt("donatur_id")
+                    rs.getInt("donatur_id"),
+                    rs.getBoolean("is_verified")
             );
             book.setIdBuku(rs.getInt("id"));
             books.add(book);

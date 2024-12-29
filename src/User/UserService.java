@@ -55,7 +55,7 @@ public class UserService implements IUserService{
         ResultSet resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
             //buat kondisi per role
-            return new Donatur(
+            return new User(
                 resultSet.getInt("id"), 
                 resultSet.getString("nama"),
                 resultSet.getString("email"),
