@@ -5,8 +5,8 @@ import User.Penerima;
 import User.User;
 import User.UserService;
 import User.Donatur;
-import book_donation.DonaturDashboard;
-import book_donation.PenerimaDashboard;
+import User_Dashboard.DonaturDashboard;
+import User_Dashboard.PenerimaDashboard;
 import java.util.Scanner;
 
 public class Main {
