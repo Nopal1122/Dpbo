@@ -17,11 +17,6 @@ public class Donatur extends User {
         super(id, nama, email, alamat, password, kontak, role);
     }
     
-    public void lihatStatusDonasi(){
-        Scanner sc = new Scanner(System.in);
-        
-    }
-    
     public void donasiBuku(){
         Scanner scanner = new Scanner(System.in);
         IBookService bookService = new BookService();
